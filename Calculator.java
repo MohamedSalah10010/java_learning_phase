@@ -1,16 +1,10 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Calculator{
 
-    public int add(int... operands) {
-        
-        int sum =0;
-   for (int op : operands) {
-        sum += op;}
-
-       return sum;
-   }
-   public double add(Double... operands) {
+    public double add(Double... operands) {
        
        double sum =0;
   for (double op : operands) {
@@ -18,58 +12,47 @@ public class Calculator{
 
       return sum;
   }
-  
-  public int substract(int... operands) {
-        
-    int sum =0;
-for (int op : operands) {
-    sum -= op;}
 
-   return sum;
-}
-public double substract(Double... operands) {
+    public double substract(Double... operands) {
    
-   double sum =0;
-for (double op : operands) {
-   sum -= op;}
+//   double [] sum = new double[operands.length];
+for (int i=1;i<operands.length;i++) {
+    operands[0]-= operands[i];
 
-  return sum;
 }
-public int multiply(int... operands) {
-        
-    int sum =0;
-for (int op : operands) {
-    sum *= op;}
 
-   return sum;
+  return operands[0];
 }
-public double multiply(Double... operands) {
+
+    public double multiply(Double... operands) {
    
-   double sum =0;
+   double sum =1;
 for (double op : operands) {
    sum *= op;}
 
   return sum;
 }
-public int division(int... operands) {
-        
-    int sum =0;
-for (int op : operands) {
-    if(op==0){ System.out.println("can't divide by zero"); break;}
 
-    sum /= op;}
+    public double division(Double... operands) {
 
-   return sum;
+//    double[] sumA =new double[operands.length];
+//    double sum=1;
+    for (int i=1; i < operands.length;  i++) {
+        if(operands[i]==0 || operands[0]==0){ System.out.println("can't divide by zero"); break;}
+//    if(operands.length==i){sumA[i]=operands[i]; break;}
+        operands[0] /= operands[i];
+    }
+
+//    for (int i=0; i < sumA.length-1;  i++) {
+////        if(sumA.length == i){sum=sumA[i-1]/sumA[i]; break;}
+//        sum = sumA[i]/sumA[i+1];
+//    }
+    return  operands[0];
 }
-public double division(Double... operands) {
-   
-   double sum =0;
-for (double op : operands) {
-    if(op==0){ System.out.println("can't divide by zero"); break;}
-   sum /= op;}
 
-  return sum;
-}
+
+
+
 
 public void calculator(double[] data , char[] operation) {
     int index=0;
@@ -115,31 +98,42 @@ if (operation[index]=='='){
 }
 
 public static void main(String[] args) {
-    int dataSize = 10;
+//    int dataSize = 10;
     System.out.println("Welcome to my humble calculator\nDesigened and developed By\\Mohamed Salah ElMorgel\n2025");
-    
-    // System.out.println("please enter the equation as following:  2 + 5 + 6 .....");
-    
-    // do{
-    // System.err.println("Enter your first operand: ");
-    double[] data= new double[dataSize] ;
-    char[] operations= new char[dataSize] ;
-    for (int i =1; i<dataSize;i++){
+
+    List<Double> data= new ArrayList<>();
+    List<Character> operations= new ArrayList<>();
+do {
+    int i = 1;
 
 
-        System.out.println("Enter opernad"+i+": ");
-        Scanner scan = new Scanner(System.in);
-         data[i-1]= scan.nextDouble();
-        System.out.print("Enter the operation(\" + - * / = \"): ");
-        operations[i-1]=scan.next().charAt(0);
-        if(operations[i-1] == '=') {
-            scan.close();
-            Calculator calculator=new Calculator();
-            calculator.calculator(data, operations);
+    System.out.print("Enter opernad" + i + ": ");
+    Scanner scan = new Scanner(System.in);
+    data.add(scan.nextDouble());
+    System.out.print("Enter the operation(\" + - * / = \"): ");
+    operations.add(scan.next().charAt(0));
+    i++;
+    if (operations.getLast() == '=') {
+        scan.close();
+//            Calculator calculator=new Calculator();
+//            calculator.calculator(data, operations);
 
+        System.out.print("Equation: ");
+        for (int j = 0; j < data.size(); j++) {
+            System.out.print(data.get(j)+" ");
+            System.out.print(operations.get(j)+" ");
 
-
+            if (j == data.size() - 1) {
+                System.out.println();
+            }
         }
+
+
+    }
+
+}while(operations.getLast() != '=');
+
+
 
     }
 
@@ -149,4 +143,4 @@ public static void main(String[] args) {
 
 
 
-}
+
