@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class CalculatorV1
+public static class CalculatorV1
 {
 
     public double add(Double... operands) {
@@ -55,7 +55,7 @@ public class CalculatorV1
 
     public void calculator(List<Double> data, List<Character> operation)
     {
-       List<Double> sum = new ArrayList<>();
+//       List<Double> sum = new ArrayList<>();
 
         for(int i =0 ; i< data.size();i++){
             if(operation.get(i) == '*' || operation.get(i) == '/')
@@ -120,7 +120,7 @@ public class CalculatorV1
     
 
 
-public void main(String[] args) {
+public static void main(String[] args) {
 
     System.out.println("Welcome to my humble calculator\nDesigened and developed By\\Mohamed Salah ElMorgel\n2025");
     Character exitFlag = 'N';
