@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public static class CalculatorV1
+public  class Calculator
 {
 
-    public double add(Double... operands) {
+    public static  double add(Double... operands) {
 
         double sum = 0;
         for (double op : operands) {
@@ -15,7 +15,7 @@ public static class CalculatorV1
         return sum;
     }
 
-    public double substract(Double... operands) {
+    public static double substract(Double... operands) {
 
 
         for (int i = 1; i < operands.length; i++) {
@@ -26,7 +26,7 @@ public static class CalculatorV1
         return operands[0];
     }
 
-    public double multiply(Double... operands) {
+    public static double multiply(Double... operands) {
 
         double sum = 1;
         for (double op : operands) {
@@ -36,7 +36,7 @@ public static class CalculatorV1
         return sum;
     }
 
-    public double division(Double... operands) {
+    public static double division(Double... operands) {
 
 
         for (int i = 1; i < operands.length; i++) {
@@ -53,7 +53,7 @@ public static class CalculatorV1
     }
 
 
-    public void calculator(List<Double> data, List<Character> operation)
+    public static void calculator(List<Double> data, List<Character> operation)
     {
 //       List<Double> sum = new ArrayList<>();
 
@@ -109,6 +109,43 @@ public static class CalculatorV1
             }
     }
 
+
+
+    public static void main(String[] args) {
+
+        System.out.println("Welcome to my humble calculator\nDesigened and developed By\\Mohamed Salah ElMorgel\n2025");
+        Character exitFlag = 'N';
+        do {
+            List<Double> data = new ArrayList<>();
+            List<Character> operations = new ArrayList<>();
+
+            int i = 1;
+            do {
+
+
+                System.out.print("Enter opernad" + i + ": ");
+                i++;
+                Scanner scan = new Scanner(System.in);
+                data.add(scan.nextDouble());
+                System.out.print("Enter the operation(\" + - * / = \"): ");
+                operations.add(scan.next().charAt(0));
+
+                if (operations.getLast() == '=') {
+
+//            Calculator calc = new Calculator();
+                    Calculator.calculator(data, operations);
+
+                    System.out.println("Do You want Exit?? (y or n): ");
+                    exitFlag = scan.next().charAt(0);
+                    exitFlag = exitFlag.toUpperCase(exitFlag);
+
+                }
+
+            } while (operations.getLast() != '=' );
+
+        }while (exitFlag == 'N');
+
+    }
 }
 
 
@@ -120,41 +157,7 @@ public static class CalculatorV1
     
 
 
-public static void main(String[] args) {
 
-    System.out.println("Welcome to my humble calculator\nDesigened and developed By\\Mohamed Salah ElMorgel\n2025");
-    Character exitFlag = 'N';
-do {
-    List<Double> data = new ArrayList<>();
-    List<Character> operations = new ArrayList<>();
-
-    int i = 1;
-    do {
-
-
-        System.out.print("Enter opernad" + i + ": ");
-        i++;
-        Scanner scan = new Scanner(System.in);
-        data.add(scan.nextDouble());
-        System.out.print("Enter the operation(\" + - * / = \"): ");
-        operations.add(scan.next().charAt(0));
-
-        if (operations.getLast() == '=') {
-
-            CalculatorV1 calc = new CalculatorV1();
-            calc.calculator(data, operations);
-
-            System.out.println("Do You want Exit?? (y or n): ");
-            exitFlag = scan.next().charAt(0);
-            exitFlag = exitFlag.toUpperCase(exitFlag);
-
-        }
-
-    } while (operations.getLast() != '=' );
-
-}while (exitFlag == 'N');
-
-    }
 
 
 
