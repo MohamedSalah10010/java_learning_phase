@@ -20,7 +20,12 @@ public class ToDoList
 {
      static int ID = 1;
      static ArrayList<ArrayList<String>> DB = new ArrayList<>();
-public static void read_Tasks(){}
+public static void edit_task(int id, ArrayList<String> edited_task)
+{
+    DB.get(id).set(1,edited_task.get(0));
+    DB.get(id).set(2,edited_task.get(1));
+    DB.get(id).set(3,edited_task.get(2));
+}
 public static void add_Task(String description, LocalDate dueDate, Boolean status)
 {
 
@@ -72,7 +77,17 @@ public static void save(){}
         add_Task("continue the work with ToDoList", LocalDate.parse("28-10-2025",formatter),false);
 
         view_allTasks();
-        view_Task(3);
+        view_Task(2);
+
+        ArrayList<String> edited_task=new ArrayList<>();
+        edited_task.add("Edit plan for the task");
+        edited_task.add("2025-10-29");
+        edited_task.add(String.valueOf(true));
+        edit_task(2,edited_task);
+        System.out.println();
+        view_Task(2);
+        System.out.println();
+        view_allTasks();
     }
 
 
