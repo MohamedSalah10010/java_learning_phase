@@ -15,11 +15,37 @@ ArrayList, loops, switch, methods, possibly file writing to save data.*/
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import com.google.gson.Gson;
+import java.io.*;
 
 public class ToDoList
 {
-     static int ID = 1;
      static ArrayList<ArrayList<String>> DB = new ArrayList<>();
+    static int ID ;
+
+
+    public static void init_ToDoList()
+{
+    // Load
+    Gson task_JSON= new Gson();
+    try (Reader reader = new FileReader("data.json")) {
+        DB = task_JSON.fromJson(reader, ArrayList.class);
+//        System.out.println(DB);
+    }catch (IOException e) {
+        e.printStackTrace();
+    }
+    if(DB == null) {
+        ID=1;
+        DB= new ArrayList<>();
+    }
+    else
+    {
+        ID = Integer.parseInt(DB.getLast().getFirst());
+        ID++;
+    }
+
+
+}
 public static void edit_task(int id, ArrayList<String> edited_task)
 {
     DB.get(id).set(1,edited_task.get(0));
@@ -67,20 +93,32 @@ public static void delete_Task(int id)
 {
     DB.remove(id);
 }
-public static void save(){}
+public static void save()
+{
+    Gson task_JSON= new Gson();
+    // Save
+    try (FileWriter writer = new FileWriter("data.json")) {
+        task_JSON.toJson(DB, writer);
+    }catch (IOException e) {
+        e.printStackTrace();
+    }
+
+
+}
 //public static void exit_Task(){}
 
 
     public static void main(String[] args )
     {
+        init_ToDoList();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        add_Task("Finish the code of ToDoList", LocalDate.parse("30-10-2025",formatter),false);
-        add_Task("Commit the structure of ToDoList", LocalDate.parse("29-10-2025",formatter),true);
-        add_Task("Push the structure of ToDoList", LocalDate.parse("28-10-2025",formatter),false);
-        add_Task("continue the work with ToDoList", LocalDate.parse("28-10-2025",formatter),false);
+//        add_Task("Finish the code of ToDoList", LocalDate.parse("30-10-2025",formatter),false);
+//        add_Task("Commit the structure of ToDoList", LocalDate.parse("29-10-2025",formatter),true);
+//        add_Task("Push the structure of ToDoList", LocalDate.parse("28-10-2025",formatter),false);
+//        add_Task("continue the work with ToDoList", LocalDate.parse("28-10-2025",formatter),false);
 
-        view_allTasks();
-        view_Task(2);
+//        view_allTasks();
+//        view_Task(2);
 
         ArrayList<String> edited_task=new ArrayList<>();
         edited_task.add("Edit plan for the task");
@@ -88,10 +126,15 @@ public static void save(){}
         edited_task.add(String.valueOf(true));
         edit_task(2,edited_task);
         System.out.println();
-        mark_Task_Done(0);
-        delete_Task(1);
+        add_Task("debug from the json file", LocalDate.parse("02-11-2025",formatter),false);
+//        add_Task("write  the json file", LocalDate.parse("29-10-2025",formatter),false);
+        mark_Task_Done(4);
+//        delete_Task(1);
         System.out.println();
         view_allTasks();
+
+        System.out.println("\n\n\n\n\n\n\n");
+        save();
     }
 
 
