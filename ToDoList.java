@@ -45,25 +45,28 @@ public static void view_allTasks()
         System.out.println(task);
     }
 }
-    public static void view_Task(int id)
-    {
+public static void view_Task(int id)
+{
         var task=DB.get(id);
         System.out.print("Task ID: "+task.get(0)+" , ");
         System.out.print("Task Description: "+task.get(1)+ " , ");
         System.out.print("Task Due Date: "+task.get(2)+ " , ");
         System.out.print("Task Status: "+task.get(3)+ " .");
     }
-    public static void mark_Task_Done(int id)
-    {
+public static void mark_Task_Done(int id)
+{
          DB.get(id).set(3, String.valueOf(true));
 
-    }
-    public static void mark_Task_UNDone(int id)
-    {
+}
+public static void mark_Task_UNDone(int id)
+{
         DB.get(id).set(3, String.valueOf(false));
 
-    }
-public static void delete_Task(){}
+}
+public static void delete_Task(int id)
+{
+    DB.remove(id);
+}
 public static void save(){}
 //public static void exit_Task(){}
 
@@ -85,7 +88,8 @@ public static void save(){}
         edited_task.add(String.valueOf(true));
         edit_task(2,edited_task);
         System.out.println();
-        view_Task(2);
+        mark_Task_Done(0);
+        delete_Task(1);
         System.out.println();
         view_allTasks();
     }
