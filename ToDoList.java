@@ -33,16 +33,31 @@ public static void add_Task(String description, LocalDate dueDate, Boolean statu
 
     DB.add(newTask);
 }
-public static void view_Tasks()
+public static void view_allTasks()
 {
     for(var task :DB)
     {
         System.out.println(task);
     }
-
-
 }
-public static void mark_Task_Done(){}
+    public static void view_Task(int id)
+    {
+        var task=DB.get(id);
+        System.out.print("Task ID: "+task.get(0)+" , ");
+        System.out.print("Task Description: "+task.get(1)+ " , ");
+        System.out.print("Task Due Date: "+task.get(2)+ " , ");
+        System.out.print("Task Status: "+task.get(3)+ " .");
+    }
+    public static void mark_Task_Done(int id)
+    {
+         DB.get(id).set(3, String.valueOf(true));
+
+    }
+    public static void mark_Task_UNDone(int id)
+    {
+        DB.get(id).set(3, String.valueOf(false));
+
+    }
 public static void delete_Task(){}
 public static void save(){}
 //public static void exit_Task(){}
@@ -52,9 +67,12 @@ public static void save(){}
     {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         add_Task("Finish the code of ToDoList", LocalDate.parse("30-10-2025",formatter),false);
-        add_Task("Commit the structure of ToDoList", LocalDate.parse("29-10-2025",formatter),false);
+        add_Task("Commit the structure of ToDoList", LocalDate.parse("29-10-2025",formatter),true);
+        add_Task("Push the structure of ToDoList", LocalDate.parse("28-10-2025",formatter),false);
+        add_Task("continue the work with ToDoList", LocalDate.parse("28-10-2025",formatter),false);
 
-        view_Tasks();
+        view_allTasks();
+        view_Task(3);
     }
 
 
