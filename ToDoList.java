@@ -39,7 +39,7 @@ public class ToDoList
     }catch (IOException e) {
         e.printStackTrace();
     }
-    if(DB == null) {
+    if(DB == null || DB.isEmpty()) {
         ID=1;
         DB= new ArrayList<>();
     }
@@ -116,7 +116,29 @@ public static void save()
 
 
 }
-//public static void exit_Task(){}
+public static void reset()
+{
+    init_ToDoList();
+    DB.clear();
+    save();
+    view_allTasks();
+}
+public static void dummy()
+{
+    init_ToDoList();
+    add_Task("Finish the code of ToDoList", LocalDate.parse("2025-11-01"),false);
+    add_Task("Commit the structure of ToDoList", LocalDate.parse("2025-10-29"),true);
+    add_Task("Push the structure of ToDoList", LocalDate.parse("2025-10-30"),false);
+    add_Task("continue the work with ToDoList", LocalDate.parse("2025-10-28"),false);
+    add_Task("Review code formatting in ToDoList", LocalDate.parse("2025-11-03"), false);
+    add_Task("Test file saving and loading features", LocalDate.parse("2025-10-31"), true);
+    add_Task("Fix null pointer exceptions in ToDoList", LocalDate.parse("2025-11-02"), false);
+    add_Task("Add search feature to ToDoList", LocalDate.parse("2025-11-04"), false);
+    add_Task("Write documentation for ToDoList project", LocalDate.parse("2025-11-05"), false);
+    add_Task("Prepare final presentation for ToDoList", LocalDate.parse("2025-11-06"), true);
+    save();
+    view_allTasks();
+}
 public static void Start_ToDoList()
 {
     System.out.println("Welcome to my humble To DO List \nDesigened and developed By\\Mohamed Salah ElMorgel\n2025");
@@ -174,12 +196,13 @@ public static void Start_ToDoList()
 
                     System.out.println("please enter the id of the task you need: ");
                     id = scanner.nextInt() ;
+                    scanner.nextLine();
                     view_Task(id);
-                    System.out.print("please enter the Edited Description of the task: ");
+                    System.out.print("\nplease enter the Edited Description of the task: ");
                     description = scanner.nextLine();
-                    System.out.print("please enter the Edited Due Date of the task (dd-mm-yyyy): ");
+                    System.out.print("\nplease enter the Edited Due Date of the task (dd-mm-yyyy): ");
                     date=scanner.nextLine();
-                    System.out.print("please enter the Edited Status of the task(done or undone): ");
+                    System.out.print("\nplease enter the Edited Status of the task(done or undone): ");
                     status=scanner.next().toLowerCase();
                     if(status.equals("done"))
                         mark_Task_Done(id);
@@ -240,7 +263,8 @@ public static void Start_ToDoList()
     {
 
         Start_ToDoList();
-
+//        reset();
+//         dummy();
     }
 
 
