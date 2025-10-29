@@ -4,9 +4,12 @@ Goal: Learn how to manage dynamic data and interact with users in loops.
 Features:
 1- Add new tasks
 2- View all tasks
-3- Mark tasks as done
-4- Delete tasks
-5- Exit program
+3- view specific task
+4- edit task
+5- Mark task as done
+6- Mark task as undone
+7- Delete task
+8- Exit program
 
 Concepts Practiced:
 
@@ -17,6 +20,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import java.io.*;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class ToDoList
 {
@@ -48,9 +53,10 @@ public class ToDoList
 }
 public static void edit_task(int id, ArrayList<String> edited_task)
 {
+    --id;
     DB.get(id).set(1,edited_task.get(0));
     DB.get(id).set(2,edited_task.get(1));
-    DB.get(id).set(3,edited_task.get(2));
+//    DB.get(id).set(3,edited_task.get(2));
 }
 public static void add_Task(String description, LocalDate dueDate, Boolean status)
 {
@@ -73,6 +79,7 @@ public static void view_allTasks()
 }
 public static void view_Task(int id)
 {
+        --id;
         var task=DB.get(id);
         System.out.print("Task ID: "+task.get(0)+" , ");
         System.out.print("Task Description: "+task.get(1)+ " , ");
@@ -81,16 +88,19 @@ public static void view_Task(int id)
     }
 public static void mark_Task_Done(int id)
 {
+        --id;
          DB.get(id).set(3, String.valueOf(true));
 
 }
 public static void mark_Task_UNDone(int id)
 {
+        --id;
         DB.get(id).set(3, String.valueOf(false));
 
 }
 public static void delete_Task(int id)
 {
+    --id;
     DB.remove(id);
 }
 public static void save()
@@ -104,37 +114,133 @@ public static void save()
     }
 
 
+
 }
 //public static void exit_Task(){}
+public static void Start_ToDoList()
+{
+    System.out.println("Welcome to my humble To DO List \nDesigened and developed By\\Mohamed Salah ElMorgel\n2025");
+    init_ToDoList();
+    boolean isExit = false;
+    int choice,id;
+    final int add=1;
+    final int viewAll=2;
+    final int viewTask=3;
+    final int edit=4;
+    final int markDone=5;
+    final int markUndone=6;
+    final int delete=7;
+    final int exit=8;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    String description,date,status;
+
+        do
+        {
+            System.out.print("\n.................................................................\n1- Add new tasks\n" +
+                    "2- View all tasks\n" +
+                    "3- view specific task\n" +
+                    "4- edit task\n" +
+                    "5- Mark task as done\n" +
+                    "6- Mark task as undone\n" +
+                    "7- Delete task\n" +
+                    "8- Exit program\n");
+            System.out.print("Please choose the option number: ");
+
+            Scanner scanner = new Scanner(System.in);
+            choice = scanner.nextInt();
+
+            switch (choice)
+            {
+                case add:
+                    System.out.print("please enter the Description of the task: ");
+                    description = scanner.nextLine();
+                    System.out.print("please enter the Due Date of the task (dd-mm-yyyy): ");
+                    date=scanner.nextLine();
+                    add_Task(description, LocalDate.parse(date,formatter),false);
+                    save();
+                    break;
+                case viewAll:
+                    view_allTasks();
+                    break;
+                case viewTask:
+                    System.out.println("please enter the id of the task you need: ");
+                    id = scanner.nextInt() ;
+                    view_Task(id);
+
+                    break;
+                case edit:
+                    ArrayList<String> edited_task=new ArrayList<>();
+
+                    System.out.println("please enter the id of the task you need: ");
+                    id = scanner.nextInt() ;
+                    view_Task(id);
+                    System.out.print("please enter the Edited Description of the task: ");
+                    description = scanner.nextLine();
+                    System.out.print("please enter the Edited Due Date of the task (dd-mm-yyyy): ");
+                    date=scanner.nextLine();
+                    System.out.print("please enter the Edited Status of the task(done or undone): ");
+                    status=scanner.next().toLowerCase();
+                    if(status.equals("done"))
+                        mark_Task_Done(id);
+                    else if (status.equals("undone"))
+                        mark_Task_UNDone(id);
+
+                    edited_task.add(description);
+                    edited_task.add(date);
+
+                    edit_task(id,edited_task);
+                    save();
+
+                    break;
+                case markDone:
+                    System.out.println("please enter the id of the task you need: ");
+                    id = scanner.nextInt() ;
+                    mark_Task_Done(id);
+                    view_Task(id);
+                    save();
+                    break;
+                case markUndone:
+                    System.out.println("please enter the id of the task you need: ");
+                    id = scanner.nextInt() ;
+                    mark_Task_UNDone(id);
+                    view_Task(id);
+                    save();
+                    break;
+                case delete:
+                    System.out.println("please enter the id of the task you need: ");
+                    id = scanner.nextInt() ;
+                    System.out.println("This task will be removed");
+                    view_Task(id);
+                    System.out.println("Confirm deletion (Y/N): ");
+                    char x =scanner.next().charAt(0);
+
+                    if (x =='y' || x=='Y')
+                        delete_Task(id);
+
+                    save();
+                    break;
+
+                case exit:
+                    isExit=true;
+                    save();
+                    break;
+
+
+                default:
+                    System.out.println("please choose valid option");
+                    break;
+            }
+
+        }while (!isExit);
+}
 
 
     public static void main(String[] args )
     {
-        init_ToDoList();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-//        add_Task("Finish the code of ToDoList", LocalDate.parse("30-10-2025",formatter),false);
-//        add_Task("Commit the structure of ToDoList", LocalDate.parse("29-10-2025",formatter),true);
-//        add_Task("Push the structure of ToDoList", LocalDate.parse("28-10-2025",formatter),false);
-//        add_Task("continue the work with ToDoList", LocalDate.parse("28-10-2025",formatter),false);
 
-//        view_allTasks();
-//        view_Task(2);
+        Start_ToDoList();
 
-        ArrayList<String> edited_task=new ArrayList<>();
-        edited_task.add("Edit plan for the task");
-        edited_task.add("2025-10-29");
-        edited_task.add(String.valueOf(true));
-        edit_task(2,edited_task);
-        System.out.println();
-        add_Task("debug from the json file", LocalDate.parse("02-11-2025",formatter),false);
-//        add_Task("write  the json file", LocalDate.parse("29-10-2025",formatter),false);
-        mark_Task_Done(4);
-//        delete_Task(1);
-        System.out.println();
-        view_allTasks();
-
-        System.out.println("\n\n\n\n\n\n\n");
-        save();
     }
 
 
